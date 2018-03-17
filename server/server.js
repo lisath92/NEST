@@ -40,7 +40,7 @@ function broadcast(data) {
 
 wss.on('connection', (socket, req) => {
   const connection = Object.assign(socket, {id: uuid()})
-  connections[connection.id] = connection;
+  connections[connection.id] = {connection, languagePreference: "en"};
   
   sendUuidToClient(connection);
 
