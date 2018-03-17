@@ -23,7 +23,6 @@ class App extends Component {
         message,
         clientInfo: {
           languagePreference: this.state.languagePreference,
-          id: 1
         }
       }));
       event.target.value = "";
@@ -33,7 +32,7 @@ class App extends Component {
   handleSocketEvents(event) {
     try {
       const data = JSON.parse(event.data);
-      this.setState({serverUuid: data.id});
+      this.setState({serverUuid: data.uuid});
     } catch (e) {
       this.setState({
         messages: this.state.messages.concat([event.data])
@@ -46,9 +45,7 @@ class App extends Component {
     // Change this to ngrok-provided url during demo
     this.socket = new WebSocket("ws://localhost:8081"); 
     this.socket.addEventListener("message", (event) => {
-      this.setState({
-        messages: this.state.messages.concat([event.data])
-      });
+      this.handleSocketEvents(event);
     });
   }
 
