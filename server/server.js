@@ -6,7 +6,6 @@ const app = express();
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
-const delimiter = "jedsincrediblylongdelimiter:";
 
 function broadcast(data) {
   wss.clients.forEach((client) => {
@@ -19,7 +18,7 @@ function broadcast(data) {
 wss.on('connection', function connection(ws, req) {
   ws.on('message', function incoming(data) {
     const {message, clientInfo: {languagePreference: language, id}} = JSON.parse(data);
-    
+
     console.log('received: %s', message);
 
     broadcast(message);
