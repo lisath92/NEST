@@ -18,12 +18,7 @@ class App extends Component {
   handleKeyPress(event) {
     if (event.charCode === 13) {
       const message = event.target.value;
-      this.socket.send(JSON.stringify({
-        message,
-        clientInfo: {
-          languagePreference: this.state.languagePreference,
-        }
-      }));
+      this.socket.send(message);
       event.target.value = "";
     }
   }
