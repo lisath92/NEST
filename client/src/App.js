@@ -40,7 +40,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.setState({serverUuid: uuidv4()});
     // Change this to ngrok-provided url during demo
     this.socket = new WebSocket("ws://localhost:8081"); 
     this.socket.addEventListener("message", (event) => {
