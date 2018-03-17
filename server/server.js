@@ -13,7 +13,12 @@ const translation = require('./translate');
 
 function handleReceivedMessages(connection) {
   connection.on('message', (data) => {
-    broadcast(data);
+    try {
+    	const parsedData = JSON.parse(data);
+    	connections[parsedData.id]['languagePreference'] = parsedData['languagePreference'];
+    } catch (e) {
+    	broadcast(data);
+    }
   });
 }
 
