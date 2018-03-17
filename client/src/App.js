@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {v4 as uuidv4} from "uuid";
 import logo from './logo.svg';
 import './App.css';
 
@@ -7,7 +8,8 @@ class App extends Component {
     super(props);
     this.state = {
       messages: [],
-      languagePreference: "en"
+      languagePreference: "en",
+      serverUuid: ""
     };
     this.socket = null;
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -29,13 +31,14 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.setState({serverUuid: uuidv4()});
     // Change this to ngrok-provided url during demo
-   this.socket = new WebSocket("ws://localhost:8081"); 
-   this.socket.addEventListener("message", (event) => {
-    this.setState({
-      messages: this.state.messages.concat([event.data])
+    this.socket = new WebSocket("ws://localhost:8081"); 
+    this.socket.addEventListener("message", (event) => {
+      this.setState({
+        messages: this.state.messages.concat([event.data])
+      });
     });
-   });
   }
 
   handleDropdownChange(event) {
