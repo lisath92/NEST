@@ -7,7 +7,8 @@ class App extends Component {
     super(props);
     this.state = {
       messages: [],
-      languagePreference: "en"
+      languagePreference: "en",
+      serverUuid: ""
     };
     this.socket = null;
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -21,21 +22,29 @@ class App extends Component {
         message,
         clientInfo: {
           languagePreference: this.state.languagePreference,
-          id: 1
         }
       }));
       event.target.value = "";
     }
   }
 
+  handleSocketEvents(event) {
+    try {
+      const data = JSON.parse(event.data);
+      this.setState({serverUuid: data.uuid});
+    } catch (e) {
+      this.setState({
+        messages: this.state.messages.concat([event.data])
+      });
+    }
+  }
+
   componentDidMount() {
     // Change this to ngrok-provided url during demo
-   this.socket = new WebSocket("ws://localhost:8081"); 
-   this.socket.addEventListener("message", (event) => {
-    this.setState({
-      messages: this.state.messages.concat([event.data])
+    this.socket = new WebSocket("ws://localhost:8081"); 
+    this.socket.addEventListener("message", (event) => {
+      this.handleSocketEvents(event);
     });
-   });
   }
 
   handleDropdownChange(event) {
