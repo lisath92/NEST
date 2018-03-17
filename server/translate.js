@@ -8,9 +8,7 @@ function translateMsg(msg, lang) {
 	let translation = 'unable to translate';
 
 	return translator.translate(msg, lang)
-	.then(results => {
-		return results;
-	})
+	.then(results => results)
 	.catch(err => {
 		console.error('ERROR: ', err);
 	});
