@@ -30,6 +30,17 @@ class App extends Component {
     }
   }
 
+  handleSocketEvents(event) {
+    try {
+      const data = JSON.parse(event.data);
+      this.setState({serverUuid: data.id});
+    } catch (e) {
+      this.setState({
+        messages: this.state.messages.concat([event.data])
+      });
+    }
+  }
+
   componentDidMount() {
     this.setState({serverUuid: uuidv4()});
     // Change this to ngrok-provided url during demo
