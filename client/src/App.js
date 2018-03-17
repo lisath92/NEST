@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {v4 as uuidv4} from "uuid";
 import logo from './logo.svg';
 import './App.css';
 
@@ -23,21 +22,28 @@ class App extends Component {
         message,
         clientInfo: {
           languagePreference: this.state.languagePreference,
-          id: 1
         }
       }));
       event.target.value = "";
     }
   }
 
-  componentDidMount() {
-    this.setState({serverUuid: uuidv4()});
-    // Change this to ngrok-provided url during demo
-    this.socket = new WebSocket("ws://localhost:8081"); 
-    this.socket.addEventListener("message", (event) => {
+  handleSocketEvents(event) {
+    try {
+      const data = JSON.parse(event);
+      this.setState({serverUuid: data.uuid});
+    } catch (e) {
       this.setState({
         messages: this.state.messages.concat([event.data])
       });
+    }
+  }
+
+  componentDidMount() {
+    // Change this to ngrok-provided url during demo
+    this.socket = new WebSocket("ws://localhost:8081"); 
+    this.socket.addEventListener("message", (event) => {
+      this.handleSocketEvents(event);
     });
   }
 
