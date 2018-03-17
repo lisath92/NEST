@@ -26,7 +26,7 @@ class App extends Component {
   handleSocketEvents(event) {
     try {
       const data = JSON.parse(event.data);
-      this.setState({serverUuid: data.uuid});
+      this.setState({serverUuid: data.id});
     } catch (e) {
       this.setState({
         messages: this.state.messages.concat([event.data])
@@ -46,6 +46,10 @@ class App extends Component {
     this.setState({
       languagePreference: event.target.value
     });
+    this.socket.send(JSON.stringify({
+      id: this.state.serverUuid,
+      languagePreference: event.target.value
+    }));
   }
 
   render() {
@@ -74,6 +78,7 @@ class App extends Component {
             <option name="Korean" value="ko">Korean</option>
             <option name="Spanish" value="es">Spanish</option>
           </select>
+          <p>This is ID: {this.state.serverUuid}</p>
         </div>
       </div>
     );
