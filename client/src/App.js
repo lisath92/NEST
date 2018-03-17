@@ -6,7 +6,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      messages: []
+      messages: [],
+      languagePreference: "FR"
     };
     this.socket = null;
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -15,14 +16,20 @@ class App extends Component {
   handleKeyPress(event) {
     if (event.charCode === 13) {
       const message = event.target.value;
-      this.socket.send(message);
+      this.socket.send(JSON.stringify({
+        message,
+        clientInfo: {
+          languagePreference: this.state.languagePreference,
+          id: 1
+        }
+      }));
       event.target.value = "";
     }
   }
 
   componentDidMount() {
     // Change this to ngrok-provided url during demo
-   this.socket = new WebSocket("wss://5f43935f.ngrok.io"); 
+   this.socket = new WebSocket("ws://localhost:8081"); 
    this.socket.addEventListener("message", (event) => {
     this.setState({
       messages: this.state.messages.concat([event.data])
