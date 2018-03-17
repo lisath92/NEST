@@ -8,7 +8,8 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 function broadcast(data) {
-  wss.clients.forEach(function each(client) {
+  wss.clients.forEach((client) => {
+    console.log(client);
     if (client.readyState === WebSocket.OPEN) {
       client.send(data);
     }
