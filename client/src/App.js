@@ -7,10 +7,11 @@ class App extends Component {
     super(props);
     this.state = {
       messages: [],
-      languagePreference: "FR"
+      languagePreference: "en"
     };
     this.socket = null;
     this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleDropdownChange = this.handleDropdownChange.bind(this);
   }
 
   handleKeyPress(event) {
@@ -37,6 +38,12 @@ class App extends Component {
    });
   }
 
+  handleDropdownChange(event) {
+    this.setState({
+      languagePreference: event.target.value
+    });
+  }
+
   render() {
     return (
       <div className="App">
@@ -55,6 +62,15 @@ class App extends Component {
         <div className="messageInputBar">
           <input onKeyPress={this.handleKeyPress} /> 
         </div> 
+        <div className="langDropdown">
+          <select type="dropdown" value={this.state.languagePreference} onChange={this.handleDropdownChange}>
+            <option name="English" value="en">English</option>
+            <option name="Chinese" value="zh-TW">Chinese</option>
+            <option name="French" value="fr">French</option>
+            <option name="Korean" value="ko">Korean</option>
+            <option name="Spanish" value="es">Spanish</option>
+          </select>
+        </div>
       </div>
     );
   }
