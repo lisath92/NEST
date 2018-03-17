@@ -13,15 +13,7 @@ const translation = require('./translate');
 
 function handleReceivedMessages(connection) {
   connection.on('message', (data) => {
-
-    const {message, clientInfo: {languagePreference: language}} = JSON.parse(data);
-
-    const translator = translation.translateMsg(message, language)
-      .then((results) => {
-        const translated = results[0];
-        broadcast(translated);
-      });
-
+    broadcast(data);
   });
 }
 
@@ -34,7 +26,10 @@ function broadcast(data) {
   Object.keys(connections).forEach((key) => {
     const client = connections[key];
     if (client.connection.readyState === WebSocket.OPEN) {
-      client.connection.send(data);
+      translation.translateMsg(data, client.languagePreference)
+        .then((results) => {
+          client.connection.send(results[0]);
+        });
     }
   });
 };
