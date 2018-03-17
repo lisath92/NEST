@@ -9,7 +9,6 @@ const wss = new WebSocket.Server({ server });
 
 function broadcast(data) {
   wss.clients.forEach((client) => {
-    console.log(client);
     if (client.readyState === WebSocket.OPEN) {
       client.send(data);
     }
@@ -17,8 +16,11 @@ function broadcast(data) {
 };
 
 wss.on('connection', function connection(ws, req) {
-  ws.on('message', function incoming(message) {
+  ws.on('message', function incoming(data) {
+    const {message, clientInfo: {languagePreference: language, id}} = JSON.parse(data);
+
     console.log('received: %s', message);
+
     broadcast(message);
   });
 });
