@@ -14,7 +14,7 @@ const translation = require('./translate');
 function handleReceivedMessages(connection) {
   connection.on('message', (data) => {
 
-    const {message, clientInfo: {languagePreference: language, id}} = JSON.parse(data);
+    const {message, clientInfo: {languagePreference: language}} = JSON.parse(data);
 
     const translator = translation.translateMsg(message, language)
       .then((results) => {
@@ -31,9 +31,10 @@ function sendUuidToClient(connection) {
 }
 
 function broadcast(data) {
-  wss.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(data);
+  Object.keys(connections).forEach((key) => {
+    const client = connections[key];
+    if (client.connection.readyState === WebSocket.OPEN) {
+      client.connection.send(data);
     }
   });
 };
