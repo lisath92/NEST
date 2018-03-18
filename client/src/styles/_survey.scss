@@ -1,6 +1,108 @@
-body {
-  margin: 0;
-  padding: 0;
-  background-color: red;
-  font-family: sans-serif;
+#welcomescreen {
+    z-index: 3;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .welcomescreen__content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 344px;
+
+        .welcome-logo {
+            margin-bottom: 40px;
+        }
+
+       .welcome-text {
+           margin-top: 40px;
+           font-size: 36px;
+       } 
+
+       .welcome-description1 {
+           margin-top: 40px;
+           font-size: 16px;
+       }
+
+        .welcome-description2 {
+            font-size: 16px;
+            margin-top: 24px;
+        }
+
+        .nameInputBar {
+            display: flex;
+            width: 100%;
+            margin-top: 76px;
+            
+            input {
+                width: 100%;
+                border: none;
+                letter-spacing: 1px;
+                padding: 5px 10px;
+                border-bottom: 1px $color_highlight solid;
+            }
+
+            button {
+                background-color: transparent;
+                border: none;
+                border-bottom: 1px $color_highlight solid;
+
+            }
+            
+        }
+    }
+    
+}
+
+#daynightscreen {
+    z-index: 2;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+
+    display: flex;
+    flex-direction: column;
+
+    .activity-header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: $color_highlight;
+        text-align: center;
+        height: 41px;
+    }
+
+    .activity {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        border-bottom: 2px solid $color_highlight;
+        height: calc(50vh - 41px);
+        font-size: 32px;
+        cursor: pointer;
+
+        div {
+            margin-top: 40px;
+        }
+    }
+
+    .activity2 {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: calc(50vh - 41px);
+        font-size: 32px;
+        cursor: pointer;
+
+        div {
+            margin-top: 40px;
+        }
+    }
 }
