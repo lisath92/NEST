@@ -8,29 +8,61 @@ class App extends Component {
     this.state = {
       messages: [],
       languagePreference: "en",
-      serverUuid: ""
+      serverUuid: "",
+      name: "",
+      previousSender: ""
     };
     this.socket = null;
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
+    this.isMessageFromSelf = this.isMessageFromSelf.bind(this);
+    this.hideUserNameFromMessage = this.hideUserNameFromMessage.bind(this);
+    this.displayMessage = this.displayMessage.bind(this);
   }
 
   handleKeyPress(event) {
     if (event.charCode === 13) {
       const message = event.target.value;
-      this.socket.send(message);
+      const data = {
+        message,
+        name: this.state.name
+      };
+      this.socket.send(JSON.stringify(data));
       event.target.value = "";
     }
   }
 
   handleSocketEvents(event) {
-    try {
-      const data = JSON.parse(event.data);
+    const data = JSON.parse(event.data);
+    // Handles initial connection that saves uuid
+    if (data.id && data.id !== null) {
       this.setState({serverUuid: data.id});
-    } catch (e) {
-      this.setState({
-        messages: this.state.messages.concat([event.data])
+    } else {
+      this.setState({ 
+        messages: this.state.messages.concat([{
+          user: data.username,
+          message: data.message,
+          userUuid: data.userUuid
+        }])
       });
+    }
+  }
+
+  hideUserNameFromMessage(data) {
+    return <div key={data.useruserUuid}>{data.message}</div>
+  }
+
+  displayMessage(data) {
+    if (data.user === this.state.previousSender) {
+      this.hideUserNameFromMessage(data);
+    } else {
+      this.setState({previousSender: data.user})
+      return(
+        <div key={data.userUuid}>
+          <div>{data.user}</div>
+          <div>{data.message}</div>
+        </div>
+      );
     }
   }
 
@@ -52,6 +84,10 @@ class App extends Component {
     }));
   }
 
+  isMessageFromSelf(data) {
+    return data.userUuid === this.state.serverUuid;
+  }
+
   render() {
     return (
       <div className="App">
@@ -63,8 +99,8 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
         <div className="chatContainer"> 
-          {this.state.messages.map((message, index) => {
-            return <div key={index}>{message}</div>
+          {this.state.messages.map((data, index) => {
+            {this.isMessageFromSelf(data) ? this.hideUserNameFromMessage(data) : this.displayMessage(data)}
           })}
         </div>
         <div className="messageInputBar">
