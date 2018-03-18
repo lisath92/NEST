@@ -65,14 +65,14 @@ class App extends Component {
  }
 
   hideUserNameFromMessage(data) {
-    return <div>{data.message}</div>
+    return <div className="msg">{data.message}</div>
   }
 
   displayMessage(data) {
       return(
         <div>
-          <div>{data.user}</div>
-          <div>{data.message}</div>
+          <div className="user">{data.user}</div>
+          <div className="msg">{data.message}</div>
         </div>
       );
   }
@@ -130,17 +130,17 @@ class App extends Component {
               <div className="lang-dropdown">
                 <select type="dropdown" value={this.state.languagePreference} onChange={this.handleDropdownChange}>
                   <option name="English" value="en">English</option>
-                  <option name="Chinese" value="zh-TW">Chinese</option>
-                  <option name="French" value="fr">French</option>
-                  <option name="Korean" value="ko">Korean</option>
-                  <option name="Spanish" value="es">Spanish</option>
+                  <option name="Chinese" value="zh-TW">中文</option>
+                  <option name="French" value="fr">Français</option>
+                  <option name="Korean" value="ko">한국어</option>
+                  <option name="Spanish" value="es">Español</option>
                 </select>
               </div>
             </header>
             <div className="msg-container"> 
               {this.state.messages.map((data, index) => {
                 return(
-                  <div key={data.userUuid} className= { this.isMessageFromSelf ? 'self' : 'other' }>
+                  <div key={data.userUuid} className= { "msg-wrapper " + (this.isMessageFromSelf(data) ? "self " : "other ") + (data.isPartOfGroup ? "group" : "" )}>
                     {data.isPartOfGroup || this.isMessageFromSelf(data) ? this.hideUserNameFromMessage(data) : this.displayMessage(data)}
                   </div>  
                 )
@@ -153,6 +153,10 @@ class App extends Component {
             </div>
           </div>
         </div>
+        <select type="dropdown" value={this.state.name} onChange={this.handleNameChange}>
+            <option value="User1">User1</option>
+            <option value="User2">User2</option>
+          </select>
       </div>
     );
   }
