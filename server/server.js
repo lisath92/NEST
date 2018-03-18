@@ -13,12 +13,16 @@ const translation = require('./translate');
 
 function handleReceivedMessages(connection) {
   connection.on('message', (data) => {
-    try {
-    	const parsedData = JSON.parse(data);
-    	connections[parsedData.id]['languagePreference'] = parsedData['languagePreference'];
-    } catch (e) {
-    	broadcast(data);
-    }
+  	const parsedData = JSON.parse(data);
+  	// console.log(parsedData);
+  	if (parsedData['languagePreference']) {
+  		connections[parsedData.id]['languagePreference'] = parsedData['languagePreference'];	
+  	} else if (parsedData['message']) {
+  		broadcast(parsedData);
+
+  	} else {
+  		connections[parsedData.id]['name'] = parsedData['name'];
+  	}
   });
 }
 
@@ -31,17 +35,21 @@ function broadcast(data) {
   Object.keys(connections).forEach((key) => {
     const client = connections[key];
     if (client.connection.readyState === WebSocket.OPEN) {
-      translation.translateMsg(data, client.languagePreference)
+      translation.translateMsg(data.message, client.languagePreference)
         .then((results) => {
-          client.connection.send(results[0]);
+        	const translatedMsg = {
+        		user: data.name,
+        		message: results[0]
+        	}
+          client.connection.send(JSON.stringify(translatedMsg));
         });
     }
   });
-};
+}
 
 wss.on('connection', (socket, req) => {
   const connection = Object.assign(socket, {id: uuid()})
-  connections[connection.id] = {connection, languagePreference: "en"};
+  connections[connection.id] = {connection, languagePreference: "en", name: ""};
   
   sendUuidToClient(connection);
 

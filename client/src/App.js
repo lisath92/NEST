@@ -9,15 +9,17 @@ class App extends Component {
       messages: [],
       languagePreference: "en",
       serverUuid: "",
-      name: "",
+      name: "User1",
       previousSender: ""
     };
     this.socket = null;
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleDropdownChange = this.handleDropdownChange.bind(this);
     this.isMessageFromSelf = this.isMessageFromSelf.bind(this);
+    this.isMessageFromPrevUser = this.isMessageFromPrevUser.bind(this);
     this.hideUserNameFromMessage = this.hideUserNameFromMessage.bind(this);
     this.displayMessage = this.displayMessage.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
   }
 
   handleKeyPress(event) {
@@ -37,33 +39,39 @@ class App extends Component {
     // Handles initial connection that saves uuid
     if (data.id && data.id !== null) {
       this.setState({serverUuid: data.id});
-    } else {
-      this.setState({ 
-        messages: this.state.messages.concat([{
-          user: data.username,
-          message: data.message,
-          userUuid: data.userUuid
-        }])
-      });
+    } else {      
+      if(data.user === this.state.previousSender) {
+        this.setState({ 
+            messages: this.state.messages.concat([{
+            user: data.user,
+            message: data.message,
+            isPartOfGroup: true
+          }])
+        });
+      } else {
+        this.setState({ 
+            messages: this.state.messages.concat([{
+            user: data.user,
+            message: data.message,
+            isPartOfGroup: false
+          }]),
+            previousSender: data.user
+        });
+      }
     }
-  }
+ }
 
   hideUserNameFromMessage(data) {
-    return <div key={data.useruserUuid}>{data.message}</div>
+    return <div>{data.message}</div>
   }
 
   displayMessage(data) {
-    if (data.user === this.state.previousSender) {
-      this.hideUserNameFromMessage(data);
-    } else {
-      this.setState({previousSender: data.user})
       return(
-        <div key={data.userUuid}>
+        <div>
           <div>{data.user}</div>
           <div>{data.message}</div>
         </div>
       );
-    }
   }
 
   componentDidMount() {
@@ -85,7 +93,21 @@ class App extends Component {
   }
 
   isMessageFromSelf(data) {
-    return data.userUuid === this.state.serverUuid;
+    return data.user === this.state.name;
+  }
+
+  isMessageFromPrevUser(data) {
+    return data.user === this.state.previousSender;
+  }
+
+  handleNameChange(event) {
+    this.socket.send(JSON.stringify({
+      id: this.state.serverUuid,
+      name: event.target.value
+    }));
+    this.setState({
+      name: event.target.value
+    });
   }
 
   render() {
@@ -100,7 +122,11 @@ class App extends Component {
         </p>
         <div className="chatContainer"> 
           {this.state.messages.map((data, index) => {
-            {this.isMessageFromSelf(data) ? this.hideUserNameFromMessage(data) : this.displayMessage(data)}
+            return(
+              <div key={data.userUuid}>
+                {data.isPartOfGroup || this.isMessageFromSelf(data) ? this.hideUserNameFromMessage(data) : this.displayMessage(data)}
+              </div>  
+            )
           })}
         </div>
         <div className="messageInputBar">
@@ -114,7 +140,12 @@ class App extends Component {
             <option name="Korean" value="ko">Korean</option>
             <option name="Spanish" value="es">Spanish</option>
           </select>
+          <select type="dropdown" value={this.state.name} onChange={this.handleNameChange}>
+            <option value="User1">User1</option>
+            <option value="User2">User2</option>
+          </select>
           <p>This is ID: {this.state.serverUuid}</p>
+          <p>This is name: {this.state.name}</p>
         </div>
       </div>
     );
