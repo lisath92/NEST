@@ -66,17 +66,7 @@
     position: fixed;
 
     display: flex;
-    flex-direction: column;
-
-    @include desktop {
-        
-        .activity {
-            border-right: 2px solid $color_highlight;
-        }
-
-        .activity-header {
-            width: 100vw;
-        }
+    flex-flow: row wrap;
     }
 
     .activity-header {
@@ -86,6 +76,7 @@
         background-color: $color_highlight;
         text-align: center;
         height: 41px;
+        width: 100%;
     }
 
     .activity {
@@ -96,7 +87,13 @@
         border-bottom: 2px solid $color_highlight;
         height: calc(50vh - 41px);
         font-size: 32px;
+        width: 100%;
         cursor: pointer;
+        @include desktop {
+             border-right: 2px solid $color_highlight;
+            width: 50%;
+            border-bottom: none;
+        }
 
         div {
             margin-top: 40px;
@@ -111,9 +108,12 @@
         height: calc(50vh - 41px);
         font-size: 32px;
         cursor: pointer;
+        width: 100%;
+        @include desktop {
+            width: 49%;
+        }
 
         div {
             margin-top: 40px;
         }
     }
-}
