@@ -3,8 +3,6 @@ body {
 	font-family: 'Open sans';
 	font-size: 16px;
 
-	position: absolute;
-
 	h1 {
 		font-size: 2em;
 		@include desktop {
@@ -41,7 +39,7 @@ body {
 	header {
 		background-color: $color_highlight;
 		display: flex;
-		justify-content: space-around;
+		justify-content: space-between;
 		align-items: center;
 
 		img {
@@ -51,6 +49,7 @@ body {
 		}
 
 		.logo {
+			margin-left: 16px;
 			@include desktop {
 				width: 23px;
 			}
@@ -65,8 +64,11 @@ body {
 	option {
 		background-color: transparent;
 		border: none;
-		width: 100%;
 		text-align: center;
+	}
+
+	select {
+		margin-right: 16px;
 	}
 }
 

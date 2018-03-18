@@ -36,11 +36,24 @@
 
         .nameInputBar {
             display: flex;
+            width: 100%;
+            margin-top: 76px;
             
             input {
-                width: 334px;
+                width: 100%;
+                border: none;
+                letter-spacing: 1px;
+                padding: 5px 10px;
+                border-bottom: 1px $color_highlight solid;
             }
-            margin-top: 76px;
+
+            button {
+                background-color: transparent;
+                border: none;
+                border-bottom: 1px $color_highlight solid;
+
+            }
+            
         }
     }
     
