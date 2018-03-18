@@ -24,7 +24,7 @@ class App extends Component {
 
   handleKeyPress(event) {
     if (event.charCode === 13) {
-      const message = event.target.value;
+      const message = event.target.value || " ";
       const data = {
         message,
         name: this.state.name
