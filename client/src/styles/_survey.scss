@@ -1,0 +1,79 @@
+#welcomescreen {
+    z-index: 5;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .welcomescreen__content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        width: 344px;
+
+        .welcome-logo {
+            margin-bottom: 40px;
+        }
+
+       .welcome-text {
+           margin-top: 40px;
+           font-size: 36px;
+       } 
+
+       .welcome-description1 {
+           margin-top: 40px;
+           font-size: 16px;
+       }
+
+        .welcome-description2 {
+            font-size: 16px;
+            margin-top: 24px;
+        }
+
+        .nameInputBar {
+            display: flex;
+            
+            input {
+                width: 334px;
+            }
+            margin-top: 76px;
+        }
+    }
+    
+}
+
+#daynightscreen {
+    z-index: 4;
+    height: 100vh;
+    width: 100vw;
+    background-color: black;
+    position: fixed;
+}
+
+#bigsmallgroupscreen {
+    z-index: 3;
+    height: 100vh;
+    width: 100vw;
+    background-color: yellow;
+    position: fixed;
+}
+
+#daytimeactivitiesscreen {
+    z-index: 2;
+    height: 100vh;
+    width: 100vw;
+    background-color: purple;
+    position: fixed;
+}
+
+#nighttimeactivitiesscreen {
+    z-index: 2;
+    height: 100vh;
+    width: 100vw;
+    background-color: seagreen;
+    position: fixed;
+}

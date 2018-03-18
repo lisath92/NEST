@@ -3,6 +3,8 @@ body {
 	font-family: 'Open sans';
 	font-size: 16px;
 
+	position: absolute;
+
 	h1 {
 		font-size: 2em;
 		@include desktop {
@@ -34,6 +36,8 @@ body {
 }
 
 .chatroom {
+	z-index: 1;
+
 	header {
 		background-color: $color_highlight;
 		display: flex;
