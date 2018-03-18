@@ -32,6 +32,7 @@ class App extends Component {
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleNameInputSubmit = this.handleNameInputSubmit.bind(this);
     this.handleClickActivity = this.handleClickActivity.bind(this);
+    this.handleSubmitOfText = this.handleSubmitOfText.bind(this);
   }
 
   handleClickActivity() {
@@ -60,6 +61,16 @@ class App extends Component {
       showWelcomeScreen: false,
       showActivityScreen: true
     })
+  }
+
+  handleSubmitOfText() {
+    const message = this.refs.textSubmission.value || " ";
+      const data = {
+        message,
+        name: this.state.name
+      };
+    this.socket.send(JSON.stringify(data));
+    this.refs.textSubmission.value = "";
   }
 
   handleSocketEvents(event) {
@@ -215,8 +226,8 @@ class App extends Component {
                 })}
               </div>
               <div className="messageInputBar">
-                <input onKeyPress={this.handleKeyPress} placeholder="Message..."/>
-                <button onClick={this.handleKeyPress}>Send <span><img src={send} alt="send message"/></span>
+                <input onKeyPress={this.handleKeyPress} ref="textSubmission" placeholder="Message..."/>
+                <button onClick={this.handleSubmitOfText}>Send <span><img src={send} alt="send message"/></span>
                 </button>
               </div>
             </div>
