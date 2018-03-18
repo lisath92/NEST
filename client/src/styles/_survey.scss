@@ -68,6 +68,17 @@
     display: flex;
     flex-direction: column;
 
+    @include desktop {
+        
+        .activity {
+            border-right: 2px solid $color_highlight;
+        }
+
+        .activity-header {
+            width: 100vw;
+        }
+    }
+
     .activity-header {
         display: flex;
         justify-content: center;
