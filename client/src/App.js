@@ -5,6 +5,8 @@ import logo from './assets/chatroom/logo.svg';
 import desktopLogo from './assets/chatroom/desktop-logo.svg';
 import send from './assets/chatroom/send.svg';
 import welcomeScreen from "./assets/survey-mobile/survey-welcome.svg";
+import garden from "./assets/survey-mobile/garden.svg"
+import activityMeal from "./assets/survey-mobile/comm-meal.svg";
 
 class App extends Component {
   constructor(props) {
@@ -16,7 +18,9 @@ class App extends Component {
       name: "",
       previousSender: "",
       nameInput: "",
-      showWelcomeScreen: true
+      showWelcomeScreen: true,
+      showActivityScreen: false,
+      showChatRoom: false,
     };
     this.socket = null;
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -27,6 +31,14 @@ class App extends Component {
     this.displayMessage = this.displayMessage.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleNameInputSubmit = this.handleNameInputSubmit.bind(this);
+    this.handleClickActivity = this.handleClickActivity.bind(this);
+  }
+
+  handleClickActivity() {
+    this.setState({
+      showActivityScreen: false,
+      showChatRoom: true
+    })
   }
 
   handleKeyPress(event) {
@@ -46,6 +58,7 @@ class App extends Component {
     this.handleNameChange(name);
     this.setState({
       showWelcomeScreen: false,
+      showActivityScreen: true
     })
   }
 
@@ -150,7 +163,7 @@ class App extends Component {
             <img className="welcome-logo" src={welcomeScreen} />
             <div className="welcome-text">Welcome to N.E.S.T</div>
             <div className="welcome-description1">You’re just a step away from fostering your health, your curiosity and your community. </div>
-            <div className="welcome-description2">Tell us your name, answer a question to start your weekly activity.</div>
+            <div className="welcome-description2">Tell us your name, and choose your weekly activity.</div>
             <div className="nameInputBar">
               <input placeholder="Your name..." ref="userName"/>
               <button onClick={this.handleNameInputSubmit}><span><img src={send} alt="send message"/></span></button>
@@ -158,23 +171,19 @@ class App extends Component {
           </div>
       </div> : ""}
 
-        <div id="daynightscreen">
+        {this.state.showActivityScreen ? <div id="daynightscreen">
+          <header className="activity-header">Select a weekly activity</header>
+          <div className="activity" onClick={this.handleClickActivity}>
+            <img src={garden} />
+            <div>TEND A GARDEN</div>
+          </div>
 
-        </div>
-
-        <div id="bigsmallgroupscreen">
-
-        </div>
-
-        <div id="daytimeactivitiesscreen">
-
-        </div>
-
-        <div id="nighttimeactivitiesscreen">
-
-        </div>
-
-        <div className="chatroom">
+          <div className="activity2">
+            <img src={activityMeal}  />
+            
+            <div>PREP A MEAL</div>
+          </div>
+        </div> : <div className="chatroom">
           <div className="desktop-wrapper">
             <div className="desktop-sidebar">
               <img src={desktopLogo} alt="logo"/>
@@ -212,7 +221,8 @@ class App extends Component {
               </div>
             </div>
           </div>
-        </div>
+        </div>}
+        
       </div>
     );
   }
