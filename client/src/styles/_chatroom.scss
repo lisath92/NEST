@@ -1,0 +1,126 @@
+//Global
+body {
+	font-family: 'Open sans';
+	font-size: 16px;
+
+	h1 {
+		font-size: 2em;
+		@include desktop {
+			font-size: 3em;
+		}
+	}
+
+	h2 {
+		font-size: 1.75em
+	}
+
+	h3 {
+		font-size: 1.125em;
+	}
+
+	h1,
+	h2,
+	h3 {
+		font-weight: normal;
+	}
+}
+
+// Chat room
+
+.desktop-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+.chatroom {
+	header {
+		background-color: $color_highlight;
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+
+		img {
+			@include desktop {
+				display: none;
+			}
+		}
+
+		.logo {
+			@include desktop {
+				width: 23px;
+			}
+		}
+	}
+
+	select,
+	option {
+		background-color: transparent;
+		border: none;
+		width: 100%;
+		text-align: center;
+	}
+}
+
+.desktop-sidebar {
+	display: none;
+
+	@include desktop {
+		display: block;
+		border-right: 1px $color_highlight solid;
+		width: 40%;
+		text-align: center;
+		height: 100vh;
+
+		img {
+			width: 48%;
+			margin-top: 80px;
+		}
+	}
+}
+
+
+.chat-container {
+	width: 100%;
+
+}
+
+.msg-container {
+	overflow: scroll;
+	min-height: 87.5vh;
+}
+
+.messageInputBar {
+	height: 6vh;
+	background-color: $color_highlight;
+	display: flex;
+	justify-content: space-between;
+	flex-flow: row nowrap;
+
+	input {
+		border: none;
+		width: 100%;
+		height: 100%;
+		background-color: $color_highlight;
+		padding: 0;
+		padding-left: 24px;
+		@include desktop {
+			width: 100%;
+		}
+	}
+
+	button {
+		border: none;
+		background-color:$color_highlight;
+		height: 100%;
+		min-width: 80px;
+
+		span {
+			vertical-align: middle;
+		}
+		@include desktop {
+			display: none;
+		}
+		
+	}
+}

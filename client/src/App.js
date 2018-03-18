@@ -115,40 +115,43 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-        <div className="chatContainer"> 
-          {this.state.messages.map((data, index) => {
-            return(
-              <div key={data.userUuid}>
-                {data.isPartOfGroup || this.isMessageFromSelf(data) ? this.hideUserNameFromMessage(data) : this.displayMessage(data)}
-              </div>  
-            )
-          })}
-        </div>
-        <div className="messageInputBar">
-          <input onKeyPress={this.handleKeyPress} /> 
-        </div> 
-        <div className="langDropdown">
-          <select type="dropdown" value={this.state.languagePreference} onChange={this.handleDropdownChange}>
-            <option name="English" value="en">English</option>
-            <option name="Chinese" value="zh-TW">Chinese</option>
-            <option name="French" value="fr">French</option>
-            <option name="Korean" value="ko">Korean</option>
-            <option name="Spanish" value="es">Spanish</option>
-          </select>
-          <select type="dropdown" value={this.state.name} onChange={this.handleNameChange}>
-            <option value="User1">User1</option>
-            <option value="User2">User2</option>
-          </select>
-          <p>This is ID: {this.state.serverUuid}</p>
-          <p>This is name: {this.state.name}</p>
+      <div className="chatroom">
+        <div className="desktop-wrapper">
+          <div className="desktop-sidebar">
+            <img src={desktopLogo} alt="logo"/>
+            <h1>N.E.S.T.</h1>
+          </div>
+          <div className="chat-container">
+            <header className="chatroom-header">
+              <div className="logo">
+                <img src={logo} alt="logo"/>
+              </div>
+              <h3>March Week 3</h3>
+              <div className="lang-dropdown">
+                <select type="dropdown" value={this.state.languagePreference} onChange={this.handleDropdownChange}>
+                  <option name="English" value="en">English</option>
+                  <option name="Chinese" value="zh-TW">Chinese</option>
+                  <option name="French" value="fr">French</option>
+                  <option name="Korean" value="ko">Korean</option>
+                  <option name="Spanish" value="es">Spanish</option>
+                </select>
+              </div>
+            </header>
+            <div className="msg-container"> 
+              {this.state.messages.map((data, index) => {
+                return(
+                  <div key={data.userUuid} className= { this.isMessageFromSelf ? 'self' : 'other' }>
+                    {data.isPartOfGroup || this.isMessageFromSelf(data) ? this.hideUserNameFromMessage(data) : this.displayMessage(data)}
+                  </div>  
+                )
+              })}
+            </div>
+            <div className="messageInputBar">
+              <input onKeyPress={this.handleKeyPress} placeholder="Message..."/>
+              <button onClick={this.handleKeyPress}>Send <span><img src={send} alt="send message"/></span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );
