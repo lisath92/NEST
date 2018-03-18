@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+import logo from './assets/chatroom/logo.svg';
+import desktopLogo from './assets/chatroom/desktop-logo.svg';
+import send from './assets/chatroom/send.svg';
 
 class App extends Component {
   constructor(props) {
