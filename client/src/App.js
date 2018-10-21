@@ -78,9 +78,9 @@ class App extends Component {
     // Handles initial connection that saves uuid
     if (data.id && data.id !== null) {
       this.setState({serverUuid: data.id});
-    } else {      
+    } else {
       if(data.user === this.state.previousSender) {
-        this.setState({ 
+        this.setState({
             messages: this.state.messages.concat([{
             user: data.user,
             message: data.message,
@@ -88,7 +88,7 @@ class App extends Component {
           }])
         });
       } else {
-        this.setState({ 
+        this.setState({
             messages: this.state.messages.concat([{
             user: data.user,
             message: data.message,
@@ -114,8 +114,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    // Change this to ngrok-provided url during demo
-    this.socket = new WebSocket("wss://62794a5f.ngrok.io"); 
+    // Update the port that the server is running on
+    this.socket = new WebSocket("ws://localhost:8081")
     this.socket.addEventListener("message", (event) => {
       this.handleSocketEvents(event);
     });
@@ -191,7 +191,7 @@ class App extends Component {
 
           <div className="activity2">
             <img src={activityMeal}  />
-            
+
             <div>PREP A MEAL</div>
           </div>
         </div> : <div className="chatroom">
@@ -216,12 +216,12 @@ class App extends Component {
                   </select>
                 </div>
               </header>
-              <div className="msg-container"> 
+              <div className="msg-container">
                 {this.state.messages.map((data, index) => {
                   return(
                     <div key={data.userUuid} className= { "msg-wrapper " + (this.isMessageFromSelf(data) ? "self " : "other ") + (data.isPartOfGroup ? "group" : "" )}>
                       {data.isPartOfGroup || this.isMessageFromSelf(data) ? this.hideUserNameFromMessage(data) : this.displayMessage(data)}
-                    </div>  
+                    </div>
                   )
                 })}
               </div>
@@ -233,7 +233,7 @@ class App extends Component {
             </div>
           </div>
         </div>}
-        
+
       </div>
     );
   }

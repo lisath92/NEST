@@ -11,12 +11,13 @@ const connections = {};
 
 const translation = require('./translate');
 
+process.env.GOOGLE_APPLICATION_CREDENTIALS = './api-secret-key.json'
+
 function handleReceivedMessages(connection) {
   connection.on('message', (data) => {
   	const parsedData = JSON.parse(data);
-  	// console.log(parsedData);
   	if (parsedData['languagePreference']) {
-  		connections[parsedData.id]['languagePreference'] = parsedData['languagePreference'];	
+  		connections[parsedData.id]['languagePreference'] = parsedData['languagePreference'];
   	} else if (parsedData['message']) {
   		broadcast(parsedData);
 
@@ -50,7 +51,7 @@ function broadcast(data) {
 wss.on('connection', (socket, req) => {
   const connection = Object.assign(socket, {id: uuid()})
   connections[connection.id] = {connection, languagePreference: "en", name: ""};
-  
+
   sendUuidToClient(connection);
 
   handleReceivedMessages(connection);
